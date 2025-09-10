@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="crm_add_button_functionality" model="ir.ui.view">
+            <field name="name">crm.lead.button.inherited.crm</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='stage_id']" position="replace">
+
+                <field name="stage_id" widget="statusbar_duration" options="{'clickable': '1', 'fold_field': 'fold'}"
+                                domain="['&amp;', '|', ('company_id', '=', False), ('company_id', '=', company_id),
+                                    '|', ('team_id', '=', team_id), ('team_id', '=', False)]" invisible="not active or type == 'lead'"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="after">
+        </xpath>
+
+            </field>
+        </record>
+
+    <record id="crm_stages_company_specific" model="ir.ui.view">
+            <field name="name">crm.lead.company.stages</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_count']" position="after">
+                      <field name="company_id"  />
+                </xpath>
+
+            </field>
+    </record>
+
+        <record id="crm_stages_company_specific_list" model="ir.ui.view">
+                <field name="name">crm.lead.company.stages.list</field>
+                <field name="model">crm.stage</field>
+                <field name="inherit_id" ref="crm.crm_stage_tree"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='team_id']" position="after">
+                          <field name="company_id"  />
+                    </xpath>
+
+                </field>
+        </record>
+
+
+
+    <record id="crm_lead_stage_search_inherit" model="ir.ui.view">
+    <field name="name">Stage - Search Inherit</field>
+    <field name="model">crm.stage</field>
+    <field name="inherit_id" ref="crm.crm_lead_stage_search"/> <!-- Replace with actual base view ID -->
+    <field name="arch" type="xml">
+        <xpath expr="//search" position="inside">
+            <filter name="group_company" string="Company" domain="[]" context="{'group_by': 'company_id'}"/>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>
+
+
